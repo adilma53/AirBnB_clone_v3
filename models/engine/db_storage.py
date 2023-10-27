@@ -80,3 +80,15 @@ class DBStorage:
         in the class session.
         """
         self.__session.close()
+
+
+    def get(self, cls, id):
+        """retrive class from db by its id"""
+        if cls and id:
+            targetObject = "{}.{}".format(cls, id)
+            all_obj = self.all(cls)
+        return all_obj.get(targetObject)
+
+    def count(self, cls=None):
+        """ count all objects in storage"""
+        return (len(self.all(cls)))
