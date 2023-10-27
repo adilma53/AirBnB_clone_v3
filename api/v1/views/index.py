@@ -6,15 +6,13 @@ from textwrap import indent
 from api.v1.views import app_views
 from flask import jsonify, request
 from models import storage
-import json
+
 
 @app_views.route("/status", methods=["GET"])
 def status():
     if request.method == "GET":
-        message = {
-            "Status": "OK"
-        }
-        return jsonify(json.dumps(message, indent=4))
+        message = {"status": "OK"}
+        return jsonify(message)
 
 
 @app_views.route("/stats", methods=["GET"])
