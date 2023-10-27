@@ -14,7 +14,7 @@ def status():
         message = {
             "Status": "OK"
         }
-        return jsonify(json.dumps(message, indent=2))
+        return jsonify(json.dumps(message, indent=4))
 
 
 @app_views.route("/stats", methods=["GET"])
