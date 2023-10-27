@@ -2,6 +2,7 @@
 """
 Index view for the API.
 """
+from textwrap import indent
 from api.v1.views import app_views
 from flask import jsonify, request
 from models import storage
@@ -10,7 +11,10 @@ from models import storage
 @app_views.route("/status", methods=["GET"])
 def status():
     if request.method == "GET":
-        return jsonify({"status": "OK"})
+        message = {
+            "Status": "OK"
+        }
+        return jsonify(message, indent=2)
 
 
 @app_views.route("/stats", methods=["GET"])
