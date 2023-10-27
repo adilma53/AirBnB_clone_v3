@@ -6,7 +6,7 @@ from textwrap import indent
 from api.v1.views import app_views
 from flask import jsonify, request
 from models import storage
-
+import json
 
 @app_views.route("/status", methods=["GET"])
 def status():
@@ -14,7 +14,7 @@ def status():
         message = {
             "Status": "OK"
         }
-        return jsonify(message, indent=2)
+        return jsonify(json.dumps(message, indent=2))
 
 
 @app_views.route("/stats", methods=["GET"])
