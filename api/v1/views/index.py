@@ -2,7 +2,6 @@
 """
 Index view for the API.
 """
-from textwrap import indent
 from api.v1.views import app_views
 from flask import jsonify, request
 from models import storage
@@ -28,5 +27,10 @@ def stats():
             "users": "users",
         }
         for key, value in PLURALS.items():
-            resp[key] = storage.count(value)
-        return jsonify(resp)
+            count = storage.count(value)
+            resp[key] = count
+
+        # Convert the resp dictionary to a JSON-serializable format
+        serializable_resp = dict(resp)
+
+        return jsonify(serializable_resp)
