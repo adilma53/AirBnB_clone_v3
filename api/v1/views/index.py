@@ -27,10 +27,5 @@ def stats():
             "users": "users",
         }
         for key, value in PLURALS.items():
-            count = storage.count(value)
-            resp[key] = count
-
-        # Convert the resp dictionary to a JSON-serializable format
-        serializable_resp = dict(resp)
-
-        return jsonify(serializable_resp)
+            resp[key] = storage.count(value)
+        return jsonify(resp)
