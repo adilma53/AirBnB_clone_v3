@@ -58,7 +58,7 @@ def handle_exception(e):
     else:
         message = {"error": e}
         code = 500
-    return make_response(jsonify(message, indent=4), code)
+    return make_response(jsonify(message), code)
 
 
 def set_global():

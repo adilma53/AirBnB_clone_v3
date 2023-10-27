@@ -2,3 +2,10 @@ myenv
 myenv/*
 .vscode
 .vscode/*
+
+
+api/__pycache__/*
+api/v1/__pycache__/*
+api/v1/views/__pycache__/*
+models/engine/__pycache__/*
+models/__pycache__/*
