@@ -64,7 +64,8 @@ def set_global():
     """
     Set global error handlers for all subclasses of HTTPException.
 
-    This function registers the `handle_exception` function as the error handler for
+    This function registers the `handle_exception`
+    function as the error handler for
     all subclasses of the `HTTPException` class in the application.
 
     Args:
