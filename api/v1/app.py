@@ -2,6 +2,7 @@
 """
 create app instance of flask
 """
+from textwrap import indent
 from api.v1.views import app_views
 from flask import Flask, jsonify, make_response, render_template, url_for
 from flask_cors import CORS, cross_origin
@@ -57,7 +58,7 @@ def handle_exception(e):
     else:
         message = {"error": e}
         code = 500
-    return make_response(jsonify(message), code)
+    return make_response(jsonify(message, indent=4), code)
 
 
 def set_global():
