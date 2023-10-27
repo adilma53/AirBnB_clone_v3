@@ -81,7 +81,6 @@ class DBStorage:
         """
         self.__session.close()
 
-
     def get(self, cls, id):
         """retrive class from db by its id"""
         if cls and id:

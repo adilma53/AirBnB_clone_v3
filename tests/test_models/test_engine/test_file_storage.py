@@ -108,7 +108,6 @@ class test_fileStorage(unittest.TestCase):
         print(type(storage))
         self.assertEqual(type(storage), FileStorage)
 
-
     """" todo these tests later"""
     def test_get(self):
         """ test get method """
