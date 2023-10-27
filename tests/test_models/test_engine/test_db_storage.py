@@ -13,3 +13,13 @@ class test_db_storage(unittest.TestCase):
     def test_docs(self):
         """docs of func"""
         self.assertIsNot(DBStorage.__doc__, None)
+
+
+    """" todo these tests later"""
+    def test_get(self):
+        """ test get method """
+        pass
+
+    def test_count(self):
+        """ test count method """
+        pass

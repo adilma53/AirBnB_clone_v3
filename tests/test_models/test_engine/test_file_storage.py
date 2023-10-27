@@ -107,3 +107,13 @@ class test_fileStorage(unittest.TestCase):
         from models.engine.file_storage import FileStorage
         print(type(storage))
         self.assertEqual(type(storage), FileStorage)
+
+
+    """" todo these tests later"""
+    def test_get(self):
+        """ test get method """
+        pass
+
+    def test_count(self):
+        """ test count method """
+        pass
