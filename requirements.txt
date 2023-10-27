@@ -13,6 +13,7 @@ flask_mongorest==0.3.0
 flask_restful==0.3.10
 Flask==3.0.0
 Flask-Cors==4.0.0
+flasgger==0.9.7.1
 fqdn==1.5.1
 HTMLParser==0.0.2
 hypothesis==6.88.1
