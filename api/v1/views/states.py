@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-'''Contains the states view for the API.'''
+'''state views for ourapi'''
 from flask import abort, jsonify, make_response, request
 from api.v1.views import app_views
 from models import storage
@@ -17,8 +17,10 @@ def state():
 def single_state(state_id):
     """get a specific state by id"""
     obj = storage.get(State, state_id)
+
     if not obj:
         abort(404)
+
     return jsonify(obj.to_dict())
 
 
@@ -27,8 +29,10 @@ def single_state(state_id):
 def del_state(state_id):
     """delete a specific state by id"""
     obj = storage.get(State, state_id)
+
     if not obj:
         abort(404)
+
     obj.delete()
     storage.save()
     return make_response(jsonify({}), 200)
@@ -38,10 +42,13 @@ def del_state(state_id):
 def post_state():
     """create state object and return it if successfull"""
     reqObj = request.get_json()
+
     if not reqObj:
         abort(400, "Not a JSON")
+
     if 'name' not in reqObj:
         abort(400, "Missing name")
+
     obj = State(**reqObj)
     storage.new(obj)
     storage.save()
@@ -52,10 +59,12 @@ def post_state():
 def put_state(state_id):
     """update state object and return it if successfull"""
     obj = storage.get(State, state_id)
+
     if not obj:
         abort(404)
 
     req = request.get_json()
+
     if not req:
         abort(400, "Not a JSON")
 
