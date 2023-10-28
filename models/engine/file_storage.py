@@ -79,17 +79,13 @@ class FileStorage:
 
     def get(self, cls, id):
         """retrive class from db by its id"""
-        if cls is not None:
-            response = list(
-                filter(
-                    lambda x: type(x) is cls and x.id == id,
-                    self.__objects.values()
-                )
-            )
-            if response:
-                return response[0]
-        return None
+        key = "{}.{}".format(cls.__name__, id)
+        return self.__objects.get(key, None)
+
 
     def count(self, cls=None):
         """ count all objects in storage"""
-        return len(self.all(cls))
+        if cls:
+            return len(self.all(cls))
+        else:
+            return len(self.__objects)
