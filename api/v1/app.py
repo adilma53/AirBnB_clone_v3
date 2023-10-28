@@ -1,86 +1,47 @@
 #!/usr/bin/python3
-"""
-create app instance of flask
-"""
-from textwrap import indent
-from api.v1.views import app_views
-from flask import Flask, jsonify, make_response, render_template, url_for
-from flask_cors import CORS, cross_origin
-from flasgger import Swagger
-from models import storage
+'''flask app for our api'''
 import os
-from werkzeug.exceptions import HTTPException
+from flask import Flask, jsonify
+from flask_cors import CORS
 
+from models import storage
+from api.v1.views import app_views
 
+'''set up flask up'''
 app = Flask(__name__)
-# global strict slash
+app_host = os.getenv('HBNB_API_HOST', '0.0.0.0')
+app_port = int(os.getenv('HBNB_API_PORT', '5000'))
 app.url_map.strict_slashes = False
-
-# flask running environment
-host = os.getenv("HBNB_API_HOST", "0.0.0.0")
-port = os.getenv("HBNB_API_PORT", 5000)
-
-# cors setup
-cors = CORS(app, resources={r"/*": {"origins": host}})
-
-# blueprint  for the app app_views
 app.register_blueprint(app_views)
+CORS(app, resources={'/*': {'origins': app_host}})
 
 
-# declare teardowm for page rendering
 @app.teardown_appcontext
-def teardown(exception):
-    """
-    Closes the storage.
-
-    Args:
-        exception (Exception): The exception that occurred, if any.
-    """
+def teardown_flask(exception):
+    '''shutdown engine'''
     storage.close()
 
 
-@app.errorhandler(Exception)
-def handle_exception(e):
-    """
-    Error handling function for Flask app.
-
-    Args:
-        e: The exception that occurred
-
-    Returns:
-        A Flask response object with the error message and status code
-    """
-    if isinstance(e, HTTPException):
-        if type(e).__name__ == "NotFound":
-            e.description = "Not Found"
-        message = {"error": e.description}
-        code = e.code
-    else:
-        message = {"error": e}
-        code = 500
-    return make_response(jsonify(message), code)
+@app.errorhandler(404)
+def error_404(error):
+    '''handle 404 error status'''
+    return jsonify(error='Not found'), 404
 
 
-def set_global():
-    """
-    Set global error handlers for all subclasses of HTTPException.
-
-    This function registers the `handle_exception`
-    function as the error handler for
-    all subclasses of the `HTTPException` class in the application.
-
-    Args:
-        None
-
-    Returns:
-        None
-    """
-    # Iterate through all subclasses of HTTPException
-    for classes in HTTPException.__subclasses__():
-        # Register handle_exception as the error handler for each subclass
-        app.register_error_handler(classes, handle_exception)
+@app.errorhandler(400)
+def error_400(error):
+    '''handle 400 error status'''
+    errorMessage = 'Bad request'
+    if isinstance(error, Exception) and hasattr(error, 'description'):
+        errorMessage = error.description
+    return jsonify(error=errorMessage), 400
 
 
-if __name__ == "__main__":
-    set_global()
-    app.run(host=host, port=port)
+if __name__ == '__main__':
+    app_host = os.getenv('HBNB_API_HOST', '0.0.0.0')
+    app_port = int(os.getenv('HBNB_API_PORT', '5000'))
+    app.run(
+        host=app_host,
+        port=app_port,
+        threaded=True
+    )
