@@ -10,28 +10,28 @@ from models.user import User
 def users():
     """get all users in storage"""
 
-    objs = storage.all(User)
-    return jsonify([obj.to_dict() for obj in objs.values()])
+    userObjs = storage.all(User)
+    return jsonify([obj.to_dict() for obj in userObjs.values()])
 
 
 @app_views.route('/users/<user_id>', methods=['GET'], strict_slashes=False)
 def single_user(user_id):
     """get a specific user by id"""
 
-    obj = storage.get(User, user_id)
-    if not obj:
+    userObj = storage.get(User, user_id)
+    if not userObj:
         abort(404)
-    return jsonify(obj.to_dict())
+    return jsonify(userObj.to_dict())
 
 
 @app_views.route('/users/<user_id>', methods=['DELETE'], strict_slashes=False)
 def del_user(user_id):
     """delete a specific user by id"""
 
-    obj = storage.get(User, user_id)
-    if not obj:
+    userObj = storage.get(User, user_id)
+    if not userObj:
         abort(404)
-    obj.delete()
+    userObj.delete()
     storage.save()
     return make_response(jsonify({}), 200)
 
@@ -40,15 +40,15 @@ def del_user(user_id):
 def post_user():
     """create user object and return it if successfull"""
 
-    new_user = request.get_json()
-    if not new_user:
+    newObj = request.get_json()
+    if not newObj:
         abort(400, "Not a JSON")
-    if 'email' not in new_user:
+    if 'email' not in newObj:
         abort(400, "Missing email")
-    if 'password' not in new_user:
+    if 'password' not in newObj:
         abort(400, 'Missing password')
 
-    obj = User(**new_user)
+    obj = User(**newObj)
     storage.new(obj)
     storage.save()
     return make_response(jsonify(obj.to_dict()), 201)
@@ -58,8 +58,8 @@ def post_user():
 def put_user(user_id):
     """update user object and return it if successfull"""
 
-    obj = storage.get(User, user_id)
-    if not obj:
+    userObj = storage.get(User, user_id)
+    if not userObj:
         abort(404)
 
     req = request.get_json()
@@ -68,7 +68,7 @@ def put_user(user_id):
 
     for k, v in req.items():
         if k not in ['id', 'email', 'created_at', 'updated_at']:
-            setattr(obj, k, v)
+            setattr(userObj, k, v)
 
     storage.save()
-    return make_response(jsonify(obj.to_dict()), 200)
+    return make_response(jsonify(userObj.to_dict()), 200)
