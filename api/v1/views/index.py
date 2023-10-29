@@ -17,7 +17,7 @@ hbnb_class = {
 }
 
 
-@app_views.route("/status", methods=["GET"])
+@app_views.route("/status", strict_slashes=False, methods=["GET"])
 def status():
     """
     Handler function for the /status endpoint.
@@ -29,7 +29,7 @@ def status():
         return jsonify({"status": "OK"})
 
 
-@app_views.route("/stats", methods=["GET"])
+@app_views.route("/stats", strict_slashes=False, methods=["GET"])
 def stats():
     """Endpoint to get statistics of the API."""
     if request.method == "GET":
