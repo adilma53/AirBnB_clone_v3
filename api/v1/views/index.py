@@ -7,25 +7,37 @@ from flask import jsonify, request
 from models import storage
 
 
+hbnb_class = {
+    "amenities": "amenities",
+    "cities": "cities",
+    "places": "places",
+    "reviews": "reviews",
+    "states": "states",
+    "users": "users",
+}
+
+
 @app_views.route("/status", methods=["GET"])
 def status():
+    """
+    Handler function for the /status endpoint.
+
+    Returns:
+        A JSON response with the status "OK".
+    """
     if request.method == "GET":
-        message = {"status": "OK"}
-        return jsonify(message)
+        return jsonify({"status": "OK"})
 
 
 @app_views.route("/stats", methods=["GET"])
 def stats():
+    """Endpoint to get statistics of the API."""
     if request.method == "GET":
         resp = {}
-        PLURALS = {
-            "amenities": "amenities",
-            "cities": "cities",
-            "places": "places",
-            "reviews": "reviews",
-            "states": "states",
-            "users": "users",
-        }
-        for key, value in PLURALS.items():
+        for key, value in hbnb_class.items():
             resp[key] = storage.count(value)
         return jsonify(resp)
+
+
+if __name__ == "__main__":
+    pass
