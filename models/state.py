@@ -10,7 +10,6 @@ from os import getenv
 
 storage_type = getenv("HBNB_TYPE_STORAGE")
 
-
 class State(BaseModel, Base):
     """state model"""
     __tablename__ = 'states'
