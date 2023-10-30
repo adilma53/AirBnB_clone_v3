@@ -1,32 +1,37 @@
 #!/usr/bin/python3
-"""state model."""
-
+"""Module to hold the State class definition."""
 import models
-from models import city
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String
-from sqlalchemy.orm import relationship
+from models.city import City
 from os import getenv
-
-storage_type = getenv("HBNB_TYPE_STORAGE")
+import sqlalchemy
+from sqlalchemy import Column, String, ForeignKey
+from sqlalchemy.orm import relationship
 
 class State(BaseModel, Base):
-    """state model"""
-    __tablename__ = 'states'
-
-    if storage_type == "db":
+    """State class to represent states."""
+    if models.storage_t == "db":
+        __tablename__ = 'states'
         name = Column(String(128), nullable=False)
-        cities = relationship("City", backref="state",
-                              cascade="all, delete-orphan")
+        cities = relationship(
+            "City",
+            cascade='all, delete, delete-orphan',
+            backref="state"
+        )
     else:
         name = ""
 
+    def __init(self, *args, **kwargs):
+        """Initialize a State instance."""
+        super().__init__(*args, **kwargs)
+
+    if models.storage_t != "db":
         @property
         def cities(self):
-            from models import storage
-            citylist = []
-            citiesAll = storage.all(city)
-            for cities in citiesAll.values():
-                if cities.state_id == self.id:
-                    citylist.append(cities)
-            return citylist
+            """Get a list of City instances related to the state."""
+            city_list = []
+            all_cities = models.storage.all(City)
+            for city in all_cities.values():
+                if city.state_id == self.id:
+                    city_list.append(city)
+            return city_list

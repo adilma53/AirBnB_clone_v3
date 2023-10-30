@@ -1,5 +1,5 @@
-myenv
-myenv/*
+venv
+venv/*
 .vscode
 .vscode/*
 
