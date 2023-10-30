@@ -17,7 +17,7 @@ storage_type = getenv("HBNB_TYPE_STORAGE")
 
 class User(BaseModel, Base):
     """Representation of a user """
-    if models.storage_t == 'db':
+    if storage_type == "db":
         __tablename__ = 'users'
         email = Column(String(128), nullable=False)
         password = Column(String(128), nullable=False)
