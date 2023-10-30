@@ -1,39 +1,29 @@
 #!/usr/bin/python3
-"""This is the user class"""
-
+""" user model """
 import models
-from models import Place
-from models import Review
-
 from models.base_model import BaseModel, Base
+from os import getenv
+import sqlalchemy
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
-from os import getenv
-
-
-
-storage_type = getenv("HBNB_TYPE_STORAGE")
 
 
 class User(BaseModel, Base):
-    """User class inherits from BaseModel
-    Attributes:
-        email (str): email address
-        password (str): password
-        first_name (str): first name
-        last_name (str): last name
-    """
-
-    __tablename__ = "users"
-    if storage_type == "db":
+    """user model reperesentation"""
+    if models.storage_t == 'db':
+        __tablename__ = 'users'
         email = Column(String(128), nullable=False)
         password = Column(String(128), nullable=False)
         first_name = Column(String(128), nullable=True)
         last_name = Column(String(128), nullable=True)
-        places = relationship("Place", cascade="all, delete" ,backref="user")
-        review = relationship("Review", cascade="all, delete" ,backref="user")
+        places = relationship("Place", cascade="all,delete", backref="user")
+        reviews = relationship("Review", cascade="all,delete", backref="user")
     else:
         email = ""
         password = ""
         first_name = ""
         last_name = ""
+
+    def __init__(self, *args, **kwargs):
+        """initialize user"""
+        super().__init__(*args, **kwargs)
