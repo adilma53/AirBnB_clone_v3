@@ -1,12 +1,16 @@
 #!/usr/bin/python3
 """This is the user class"""
-import models
 
-from models.base_model import BaseModel
-from models.base_model import Base, BaseModel
-from os import getenv
+import models
+from models import Place
+from models import Review
+
+from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
+from os import getenv
+
+
 
 storage_type = getenv("HBNB_TYPE_STORAGE")
 

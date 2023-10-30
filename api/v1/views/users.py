@@ -43,8 +43,10 @@ def post_user():
     newObj = request.get_json()
     if not newObj:
         abort(400, "Not a JSON")
+
     if 'email' not in newObj:
         abort(400, "Missing email")
+
     if 'password' not in newObj:
         abort(400, 'Missing password')
 
