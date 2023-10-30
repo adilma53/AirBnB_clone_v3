@@ -1,15 +1,22 @@
 #!/usr/bin/python3
-""" user model """
+"""This is the user class"""
+
 import models
+from models import Place
+from models import Review
+
 from models.base_model import BaseModel, Base
-from os import getenv
-import sqlalchemy
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
+from os import getenv
+
+
+
+storage_type = getenv("HBNB_TYPE_STORAGE")
 
 
 class User(BaseModel, Base):
-    """user model reperesentation"""
+    """Representation of a user """
     if models.storage_t == 'db':
         __tablename__ = 'users'
         email = Column(String(128), nullable=False)
@@ -25,5 +32,5 @@ class User(BaseModel, Base):
         last_name = ""
 
     def __init__(self, *args, **kwargs):
-        """initialize user"""
+        """initializes user"""
         super().__init__(*args, **kwargs)
